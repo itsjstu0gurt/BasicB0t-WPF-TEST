@@ -3,53 +3,51 @@ using System.IO;
 
 namespace BasicB0t.Logging
 {
-    public enum LogLevel
-    {
-        Debug,
-        Info,
-        Warning,
-        Error,
-        Critical
-    }
-
-    public interface ILogEventPublisher
-    {
-        event EventHandler<LogEventArgs> LogEvent;
-        void PublishLogEvent(string message);
-    }
-
-
     public class Logger
     {
-        public event EventHandler<LogEventArgs>? LogEvent;
+        
+        public event EventHandler<string>? LogMessageLogged;
+        
 
-       
-        private readonly string logFile;
-        private readonly object lockObj = new object();
+        private readonly string _logDirectory;
+        private readonly string _logFile;
+        private readonly object _lockObj = new object();
 
         public Logger()
         {
-            string logDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logger");
+            // Get the path to the log directory
+            _logDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
 
-            logFile = Path.Combine(logDirectoryPath, $"{DateTime.Now:yyyy-MM-dd}.log");
-            if (!Directory.Exists(logDirectoryPath))
+            // Ensure the log directory exists
+            if (!Directory.Exists(_logDirectory))
             {
-                Directory.CreateDirectory(logDirectoryPath);
+                Directory.CreateDirectory(_logDirectory);
             }
+
+            // Get the path to the log file for the current day
+            _logFile = Path.Combine(_logDirectory, $"{DateTime.Now:yyyy-MM-dd}.log");
         }
 
-        public void Log(string message, LogLevel logLevel = LogLevel.Info)
+        public void Log(string message, LogLevel logLevel)
         {
-            var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            var formattedMessage = $"{timestamp} [{logLevel}] {message}";
+            // Log message using your chosen logging framework or method
 
-            PublishLogEvent(formattedMessage);
+            // Raise event to notify subscribers about the new log message
+            LogMessageLogged?.Invoke(this, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{logLevel}] {message}");
 
-            lock (lockObj)
+            lock (_lockObj)
             {
                 try
                 {
-                    File.AppendAllText(logFile, formattedMessage + Environment.NewLine);
+                    // Ensure the log file for the current day exists
+                    if (!File.Exists(_logFile))
+                    {
+                        // Create the log file
+                        File.Create(_logFile).Close();
+                    }
+
+                    // Append the log message to the log file
+                    File.AppendAllText(_logFile, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{logLevel}] {message}" + Environment.NewLine);
                 }
                 catch (Exception ex)
                 {
@@ -57,29 +55,22 @@ namespace BasicB0t.Logging
                 }
             }
         }
-
-        public void PublishLogEvent(string message)
-        {
-            LogEvent?.Invoke(this, new LogEventArgs(message));
-        }
-
-        // Convenience methods for different log levels
-        public void Debug(string message) => Log(message, LogLevel.Debug);
-        public void Info(string message) => Log(message, LogLevel.Info);
-        public void Warning(string message) => Log(message, LogLevel.Warning);
-        public void Error(string message) => Log(message, LogLevel.Error);
-        public void Critical(string message) => Log(message, LogLevel.Critical);
     }
-
     public class LogEventArgs : EventArgs
     {
         public string LogMessage { get; }
-        
 
         public LogEventArgs(string logMessage)
         {
             LogMessage = logMessage;
-            
         }
+    }
+    public enum LogLevel
+    {
+        Debug,
+        Info,
+        Warning,
+        Error,
+        Critical
     }
 }

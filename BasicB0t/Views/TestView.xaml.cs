@@ -25,7 +25,7 @@ namespace BasicB0t.Views
         public TestView()
         {
             InitializeComponent();
-            DataContext = new TestViewModel();
+            DataContext = new TestViewModel(new Logger());
         }
     }
 }

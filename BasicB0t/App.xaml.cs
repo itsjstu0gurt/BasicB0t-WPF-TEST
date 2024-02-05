@@ -3,7 +3,7 @@ using BasicB0t.Views;
 using System.Configuration;
 using System.Data;
 using System.Windows;
-using BasicB0t.Logging;
+
 
 namespace BasicB0t
 {

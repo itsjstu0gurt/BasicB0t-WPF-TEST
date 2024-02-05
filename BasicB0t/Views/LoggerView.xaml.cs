@@ -1,5 +1,4 @@
 ﻿using BasicB0t.ViewModels;
-using BasicB0t.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,20 +13,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BasicB0t.Logging;
 
 namespace BasicB0t.Views
 {
-    /// <summary>
-    /// Interaction logic for LoggerView.xaml
-    /// </summary>
     public partial class LoggerView : UserControl
     {
-        public Logger Logger; // Create a new Logger instance
         public LoggerView()
         {
-            InitializeComponent();
-            Logger = new Logger(); // Create a new Logger instance
-            DataContext = new LoggerViewModel(Logger);
+            InitializeComponent();           
+            DataContext = new LoggerViewModel(new Logger());
         }
     }
 }

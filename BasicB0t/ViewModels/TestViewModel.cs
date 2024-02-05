@@ -16,11 +16,13 @@ namespace BasicB0t.ViewModels
 {
     public class TestViewModel : ObservableRecipient
     {
+       
+        private readonly Logger _logger;
         public ICommand ButtonClickCommand { get; }
-        private readonly Logger logger;
 
         public TestViewModel(Logger logger)
         {
+            _logger = logger;
             ButtonClickCommand = new RelayCommand(ButtonClick);
             
         }
@@ -29,7 +31,7 @@ namespace BasicB0t.ViewModels
         {
             // Add a log message
             
-            logger.Log("Button Pressed", LogLevel.Info);
+            _logger.Log("Button Pressed", LogLevel.Info);
 
         }
     }
