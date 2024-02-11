@@ -1,5 +1,4 @@
 ﻿using BasicB0t.ViewModels;
-using BasicB0t.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +17,14 @@ using System.Windows.Shapes;
 namespace BasicB0t.Views
 {
     /// <summary>
-    /// Interaction logic for TestView.xaml
+    /// Interaction logic for TwitchSettings.xaml
     /// </summary>
-    public partial class TestView : UserControl
+    public partial class TwitchSettings : UserControl
     {
-        public TestView()
+        public TwitchSettings()
         {
             InitializeComponent();
-            DataContext = new TestViewModel();
+            DataContext = new TwitchSettingsViewModel();
         }
     }
 }

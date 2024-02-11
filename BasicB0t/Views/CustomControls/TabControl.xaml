@@ -33,11 +33,11 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True" SourceName="Border">
                                 <Setter TargetName="Border" Property="Background" Value="#2e2e2e" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="White" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Gold" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="Border" Property="Background" Value="#4e5700" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Gold" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -81,6 +81,13 @@
                 <TabItem.Content>
                     <Grid Background="#333639">
                         <views:LoggerView />
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem Header="Twitch Settings" Style="{StaticResource TabHeaderStyle}">
+                <TabItem.Content>
+                    <Grid Background="#333639">
+                        <views:TwitchSettings />
                     </Grid>
                 </TabItem.Content>
             </TabItem>

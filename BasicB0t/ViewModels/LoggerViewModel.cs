@@ -6,7 +6,6 @@ namespace BasicB0t.ViewModels
 {
     public class LoggerViewModel : ObservableObject
     {
-        public Logger _logger;
         private ObservableCollection<string> _logMessages = new ObservableCollection<string>();
 
         public ObservableCollection<string> LogMessages
@@ -15,10 +14,11 @@ namespace BasicB0t.ViewModels
             set => SetProperty(ref _logMessages, value);
         }
 
-        public LoggerViewModel(Logger logger)
+        public LoggerViewModel()
         {
-            _logger = logger;
+            Logger logger = Logger.GetInstance();
             logger.LogMessageLogged += OnLogMessageLogged;
+            logger.Log("Logger Initializing...", LogLevel.Info);
             logger.Log("Logger Initialized", LogLevel.Info);
         }
 

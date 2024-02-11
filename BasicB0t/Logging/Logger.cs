@@ -5,15 +5,14 @@ namespace BasicB0t.Logging
 {
     public class Logger
     {
-        
+        private static Logger? _instance;
+        private static readonly object _lockObj = new object();
         public event EventHandler<string>? LogMessageLogged;
-        
 
         private readonly string _logDirectory;
         private readonly string _logFile;
-        private readonly object _lockObj = new object();
 
-        public Logger()
+        private Logger()
         {
             // Get the path to the log directory
             _logDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
@@ -26,6 +25,18 @@ namespace BasicB0t.Logging
 
             // Get the path to the log file for the current day
             _logFile = Path.Combine(_logDirectory, $"{DateTime.Now:yyyy-MM-dd}.log");
+        }
+
+        public static Logger GetInstance()
+        {
+            lock (_lockObj)
+            {
+                if (_instance == null)
+                {
+                    _instance = new Logger();
+                }
+                return _instance;
+            }
         }
 
         public void Log(string message, LogLevel logLevel)
@@ -56,6 +67,7 @@ namespace BasicB0t.Logging
             }
         }
     }
+
     public class LogEventArgs : EventArgs
     {
         public string LogMessage { get; }
@@ -65,6 +77,7 @@ namespace BasicB0t.Logging
             LogMessage = logMessage;
         }
     }
+
     public enum LogLevel
     {
         Debug,

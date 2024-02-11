@@ -11,6 +11,8 @@
     
         <ListBox Background="#333639"
                  Foreground="Gold"
+                 FontSize="12"
+                 FontFamily="Tahoma"
                  ItemsSource="{Binding LogMessages}" />
     
 </UserControl>

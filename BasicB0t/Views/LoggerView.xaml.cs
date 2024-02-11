@@ -22,7 +22,7 @@ namespace BasicB0t.Views
         public LoggerView()
         {
             InitializeComponent();           
-            DataContext = new LoggerViewModel(new Logger());
+            DataContext = new LoggerViewModel();
         }
     }
 }
