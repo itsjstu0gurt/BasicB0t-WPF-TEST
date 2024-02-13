@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\NoImage.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="TwitchLib" Version="3.5.3" />
@@ -19,6 +23,43 @@
   <ItemGroup>
     <Folder Include="Classes\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\NoImage.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Settings\App.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>App.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Settings\UserApp.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserApp.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Settings\UserClient.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserClient.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Settings\App.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>App.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Settings\UserApp.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>UserApp.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Settings\UserClient.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>UserClient.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

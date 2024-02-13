@@ -8,6 +8,12 @@
                      d:Height="35" d:DesignWidth="800"
          Background="#333639">
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF333639" Offset="0"/>
+                <GradientStop Color="#FF1E1E1E" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Image Source="./Resources/Images/OfflineIcon.png" Height="25" Width="25" Margin="5,0,0,0"/>
             <TextBlock Text="Twitch Status: " Foreground="Gold" VerticalAlignment="Center" Margin="5,0,0,0"/>

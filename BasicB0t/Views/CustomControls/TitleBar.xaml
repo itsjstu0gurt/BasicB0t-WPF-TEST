@@ -7,8 +7,15 @@
              mc:Ignorable="d" 
                          d:Height="45" d:DesignWidth="800">
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF333639" Offset="1"/>
+                <GradientStop Color="#FF1E1E1E" Offset="0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Border
-            Background="#252525"
+            Background="Transparent"
+            
             MouseDown="MoveWindow_Click"
             
             />
