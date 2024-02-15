@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /BasicB0t/Settings/App.settings
+/BasicB0t/Settings/App.settings
+/BasicB0t/Settings/UserClient.settings
+/BasicB0t/Settings/UserApp.settings
