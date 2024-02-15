@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BasicB0t.Services
 {
-    public interface TwitchService
+    public interface ITwitchService
     {
-        void ConnectClient();
-        void DisconnectClient();
+        void ConnectUserClient();
+        void DisconnectUserClient();
 
     }
 }

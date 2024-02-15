@@ -1,17 +1,24 @@
 ﻿using BasicB0t.Logging;
+using BasicB0t.Services;
+using BasicB0t.Twitch;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace BasicB0t.ViewModels
 {
     public class TwitchSettingsViewModel : INotifyPropertyChanged
     {
         private readonly Logger logger;
+        private readonly ITwitchService _twitchAuthService;
+        public ICommand ConnectUserBtn { get; }
+        public ICommand DisconnectUserBtn { get; }
                 
         private string _username;
         public string Username
@@ -65,10 +72,15 @@ namespace BasicB0t.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public TwitchSettingsViewModel()
+        public TwitchSettingsViewModel(ITwitchService twitchAuthService)
         {
             logger = Logger.GetInstance();
             logger.Log("TwitchSettingsViewModel Initializing...", LogLevel.Info);
+            _twitchAuthService = twitchAuthService;
+
+
+            ConnectUserBtn = new RelayCommand(ConnectUser);
+            //DisconnectUserBtn = new RelayCommand(DisconnectUser);
             logger.Log("TwitchSettingsViewModel Initialized.", LogLevel.Info);
 
             _username = "Press Connect Button Below";
@@ -79,5 +91,12 @@ namespace BasicB0t.ViewModels
 
         }
 
+        private async void ConnectUser()
+        {
+            logger.Log("ConnectUser Button Pressed", LogLevel.Info);
+            Username = "Connecting...";
+            _twitchAuthService.ConnectUserClient();
+            
+        }
     }
 }

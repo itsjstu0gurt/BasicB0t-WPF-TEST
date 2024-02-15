@@ -1,6 +1,7 @@
 ﻿using BasicB0t.Logging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace BasicB0t.ViewModels
 {
@@ -24,7 +25,10 @@ namespace BasicB0t.ViewModels
 
         private void OnLogMessageLogged(object? sender, string logMessage)
         {
-        LogMessages.Add(logMessage);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _logMessages.Add(logMessage);
+            });
         }
 
     }

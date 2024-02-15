@@ -87,7 +87,7 @@
             <TabItem Header="Twitch Settings" Style="{StaticResource TabHeaderStyle}">
                 <TabItem.Content>
                     <Grid Background="#333639">
-                        <views:TwitchSettings />
+                        <views:TwitchSettingsView />
                     </Grid>
                 </TabItem.Content>
             </TabItem>

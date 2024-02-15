@@ -30,10 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Settings\App.Designer.cs">
+    <Compile Update="Settings\Client.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
-      <DependentUpon>App.settings</DependentUpon>
+      <DependentUpon>Client.settings</DependentUpon>
     </Compile>
     <Compile Update="Settings\UserApp.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -48,9 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Settings\App.settings">
+    <None Update="Settings\Client.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>App.Designer.cs</LastGenOutput>
+      <LastGenOutput>Client.Designer.cs</LastGenOutput>
     </None>
     <None Update="Settings\UserApp.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
