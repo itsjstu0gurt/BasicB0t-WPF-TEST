@@ -1,6 +1,7 @@
 ﻿using BasicB0t.Logging;
 using BasicB0t.Services;
 using BasicB0t.Settings;
+using BasicB0t.Events;
 using BasicB0t.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,11 @@ namespace BasicB0t.Twitch
 {
     public class TwitchAuthService : ITwitchService
     {
-        private readonly TwitchClient _twitchClient;
-        //public TwitchSettingsViewModel _twitchSettingsViewModel;
+        public event EventHandler<TwitchUserConnectedEventArgs> TwitchUserConnected;
+        public event EventHandler<TwitchUserDisconnectedEventArgs> TwitchUserDisconnected;
+
+        private TwitchClient _twitchClient;
+        public TwitchSettingsViewModel _twitchSettingsViewModel;
         public TwitchAPI api;
         public WebServer server;
         private readonly Logger logger;
@@ -34,23 +38,26 @@ namespace BasicB0t.Twitch
         {
             logger = Logger.GetInstance();
             logger.Log("TwitchAuthService Initializing...", LogLevel.Info);
-            //_twitchSettingsViewModel = twitchSettingsViewModel;
-            _twitchClient = new TwitchClient();
+            
+            //_twitchClient = new TwitchClient();
             api = new TwitchAPI();
             server = new WebServer(redirectURL);
+
+            
             
             UserClient.Default.Reload();
             
             api.Settings.ClientId = clientID;
             api.Settings.Secret = clientSecret;
 
-            InitializeEvents();
+            //InitializeEvents();
 
             logger.Log("TwitchAuthService Initialized.", LogLevel.Info);
         }
 
-        private void InitializeEvents()
+        public void InitializeTwitchClient()
         {
+            _twitchClient = new TwitchClient();
             _twitchClient.OnConnected += OnConnectedHandler;
             _twitchClient.OnDisconnected += OnDisconnectedHandler;
             _twitchClient.OnMessageReceived += OnMessageReceivedHandler;
@@ -61,6 +68,14 @@ namespace BasicB0t.Twitch
 
         public async void ConnectUserClient()
         {
+            if (_twitchClient != null)
+            {
+                if (_twitchClient.IsConnected)
+                {
+                    logger.Log("Already connected to Twitch.", LogLevel.Info);
+                    return;
+                }
+            }
             logger.Log("Connecting to Twitch Client...", LogLevel.Info);
             logger.Log("Checking for token...", LogLevel.Info);
             if (string.IsNullOrEmpty(UserClient.Default.OauthToken))
@@ -159,7 +174,7 @@ namespace BasicB0t.Twitch
 
         private void ConnectTwitchClient(string oauthToken, string username)
         {
-            //InitializeTwitchClient();
+            InitializeTwitchClient();
             _twitchClient.Initialize(new ConnectionCredentials(username, oauthToken, redirectURL));
 
             if (_twitchClient.IsInitialized)
@@ -222,20 +237,43 @@ namespace BasicB0t.Twitch
                 logger.Log("Error disconnecting from Twitch.", LogLevel.Error);
                 return;
             }
+            
 
+        }
+
+        public void ClearUserSettings()
+        {
+            logger.Log("Clearing User Settings....", LogLevel.Info);
+            api.Settings.AccessToken = string.Empty;
+            UserClient.Default.RefreshToken = string.Empty;
+            UserClient.Default.OauthToken = string.Empty;
+            UserClient.Default.Username = string.Empty;
+            UserClient.Default.UserID = string.Empty;
+            UserClient.Default.TokenExpiry = DateTime.Now.ToString();
+            UserClient.Default.ProfileURL = string.Empty;
+            UserClient.Default.ProfileColor = string.Empty;
+            UserClient.Default.Save();
         }
 
         public void OnConnectedHandler(object sender, OnConnectedArgs e)
         {
             logger.Log("Connected to Twitch.", LogLevel.Info);
-            //_twitchSettingsViewModel.Username = UserClient.Default.Username;
-            getUserChatColor().Wait();            
+            getUserChatColor().Wait(); 
+            //_twitchSettingsViewModel.UpdateUserUI(UserClient.Default.Username, UserClient.Default.ProfileURL);
+            TwitchUserConnected?.Invoke(this, new TwitchUserConnectedEventArgs(UserClient.Default.Username, UserClient.Default.ProfileURL, UserClient.Default.ProfileColor));
         }
 
         private void OnDisconnectedHandler(object sender, OnDisconnectedEventArgs e)
         {
-            logger.Log("Disconnected from Twitch.", LogLevel.Info);            
+            logger.Log("Disconnected from Twitch.", LogLevel.Info);
+            TwitchUserDisconnected?.Invoke(this, new TwitchUserDisconnectedEventArgs(UserClient.Default.Username, UserClient.Default.ProfileURL, UserClient.Default.ProfileColor));
+            _twitchClient.OnConnected -= OnConnectedHandler;
+            _twitchClient.OnDisconnected -= OnDisconnectedHandler;
+            _twitchClient.OnMessageReceived -= OnMessageReceivedHandler;
+            _twitchClient.OnJoinedChannel -= OnJoinedChannelHandler;
+            _twitchClient.OnLeftChannel -= OnLeftChannelHandler;
         }
+    
 
         private void OnMessageReceivedHandler(object sender, OnMessageReceivedArgs e)
         {

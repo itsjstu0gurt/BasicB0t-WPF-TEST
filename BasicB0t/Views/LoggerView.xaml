@@ -8,11 +8,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="#333639" Foreground="Gold">
-    
+    <ScrollViewer Name="logScrollViewer">
         <ListBox Background="#333639"
                  Foreground="Gold"
                  FontSize="12"
                  FontFamily="Tahoma"
                  ItemsSource="{Binding LogMessages}" />
-    
+    </ScrollViewer>
 </UserControl>

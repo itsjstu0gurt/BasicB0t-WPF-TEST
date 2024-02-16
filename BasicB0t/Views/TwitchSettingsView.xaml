@@ -3,9 +3,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:enums="clr-namespace:BasicB0t.Enums"
+              xmlns:converter="clr-namespace:BasicB0t.Converters" xmlns:viewmodels="clr-namespace:BasicB0t.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:TwitchSettingsViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="800" d:DesignWidth="1000"
              Background="#333639" Foreground="Gold">
+    <UserControl.Resources>
+        <converter:ChatColorToBrushConverter x:Key="ChatColorToBrushConverter"/>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -25,9 +31,32 @@
             <Border BorderBrush="Black" BorderThickness="2" Margin="10" Width="210" Height="210">
                 <Image x:Name="UserImage" VerticalAlignment="Center" Width="200" Height="200" Source="{Binding UserProfileImg}"/>
             </Border>
-            <TextBlock Text="{Binding Username}" Foreground="Gold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Text="{Binding Username}" Foreground="{Binding UserColor}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,10,0,0"/>
+            <ComboBox Grid.Column="0" Grid.Row="0" x:Name="ColorComboBox"
+          ItemsSource="{Binding ChatColorOptions}" 
+          SelectedItem="{Binding SelectedChatColor, Mode=TwoWay}"
+          HorizontalAlignment="Center" VerticalAlignment="Center"
+          Width="200" FontSize="16" Margin="0,10,0,0"
+          Foreground="Gold" Background="#333639"
+          SelectedIndex="-1">
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Foreground" Value="Gold"/>
+                        <Setter Property="Background" Value="#333639"/>
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" 
+                       Foreground="{Binding Converter={StaticResource ChatColorToBrushConverter}}"
+                       />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
             <Button x:Name="ConnectUserAccount" Command="{Binding ConnectUserBtn}" Content="Connect" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" FontSize="24" FontWeight="Bold" Margin="0,10,0,0"/>
             <Button x:Name="DisconnectUserAccount" Command="{Binding DisconnectUserBtn}" Content="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" FontSize="24" FontWeight="Bold" Margin="0,10,0,0"/>
+            <Button x:Name="ForgetUserAccount" Command="{Binding ForgetUserBtn}" Content="Forget" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" FontSize="24" FontWeight="Bold" Margin="0,10,0,0"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="0,20,10,10">
             <TextBlock Text="Bot Account" Foreground="Gold" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" TextDecorations="Underline"/>
