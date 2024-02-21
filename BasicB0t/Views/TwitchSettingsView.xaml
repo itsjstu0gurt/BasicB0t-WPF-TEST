@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:enums="clr-namespace:BasicB0t.Enums"
-              xmlns:converter="clr-namespace:BasicB0t.Converters" xmlns:viewmodels="clr-namespace:BasicB0t.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:TwitchSettingsViewModel}"
+             xmlns:converter="clr-namespace:BasicB0t.Converters" xmlns:viewmodels="clr-namespace:BasicB0t.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:TwitchSettingsViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1000"
              Background="#333639" Foreground="Gold">

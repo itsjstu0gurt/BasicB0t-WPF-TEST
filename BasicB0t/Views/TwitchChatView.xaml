@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="BasicB0t.Views.TwitchChatView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BasicB0t.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="850" d:DesignWidth="400"
+             Background="#333639" Foreground="Gold"
+             FontFamily="Tahoma" FontSize="12" FontWeight="Light">
+ 
+    <Grid>
+        <ListBox ItemsSource="{Binding IncomingChatMessages}" Background="Transparent">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Badges -->
+                        <ItemsControl ItemsSource="{Binding Badges}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Value}" Width="20" Height="20" Margin="2"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- Username -->
+                        <TextBlock Text="{Binding Username}" Foreground="{Binding UserColor}" FontWeight="Heavy" Margin="5"/>
+
+                        <!-- Message -->
+                        <TextBlock Text="{Binding Message}" Margin="5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

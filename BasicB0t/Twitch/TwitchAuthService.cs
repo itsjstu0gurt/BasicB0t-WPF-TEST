@@ -23,6 +23,7 @@ namespace BasicB0t.Twitch
     {
         public event EventHandler<TwitchUserConnectedEventArgs> TwitchUserConnected;
         public event EventHandler<TwitchUserDisconnectedEventArgs> TwitchUserDisconnected;
+        public event EventHandler<TwitchMessageRecievedEventArgs> TwitchMessageRecieved;
 
         private TwitchClient _twitchClient;
         public TwitchSettingsViewModel _twitchSettingsViewModel;
@@ -118,6 +119,7 @@ namespace BasicB0t.Twitch
                 UserClient.Default.UserID = currentUser.Id;
                 UserClient.Default.ProfileURL = currentUser.ProfileImageUrl;
                 //getUserChatColor().Wait();
+                logger.Log("Got new tokens.", LogLevel.Info);
                 return;
             }
 
@@ -253,6 +255,7 @@ namespace BasicB0t.Twitch
             UserClient.Default.ProfileURL = string.Empty;
             UserClient.Default.ProfileColor = string.Empty;
             UserClient.Default.Save();
+            logger.Log("User Settings Cleared.", LogLevel.Info);
         }
 
         public void OnConnectedHandler(object sender, OnConnectedArgs e)
@@ -278,6 +281,7 @@ namespace BasicB0t.Twitch
         private void OnMessageReceivedHandler(object sender, OnMessageReceivedArgs e)
         {
             logger.Log($"Message Received: {e.ChatMessage.Message}", LogLevel.Info);
+            TwitchMessageRecieved?.Invoke(this, new TwitchMessageRecievedEventArgs(e.ChatMessage.Badges, e.ChatMessage.Username, e.ChatMessage.Color, e.ChatMessage.Message));
         }
 
         private void OnJoinedChannelHandler(object sender, OnJoinedChannelArgs e)

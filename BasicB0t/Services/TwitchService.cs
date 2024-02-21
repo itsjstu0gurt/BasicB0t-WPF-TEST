@@ -11,6 +11,7 @@ namespace BasicB0t.Services
     {
         event EventHandler<TwitchUserConnectedEventArgs> TwitchUserConnected;
         event EventHandler<TwitchUserDisconnectedEventArgs> TwitchUserDisconnected;
+        event EventHandler<TwitchMessageRecievedEventArgs> TwitchMessageRecieved;   
         void ConnectUserClient();
         void DisconnectUserClient();
         void ClearUserSettings();
