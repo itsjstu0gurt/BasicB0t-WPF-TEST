@@ -3,6 +3,8 @@ using BasicB0t.Services;
 using BasicB0t.Twitch;
 using BasicB0t.Views;
 using BasicB0t.Events;
+using BasicB0t.Enums;
+using BasicB0t.Logging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using TwitchLib.Client.Models;
@@ -14,15 +16,18 @@ namespace BasicB0t.ViewModels
     public class TwitchChatViewModel : ObservableObject
     {
         private readonly ITwitchService _twitchAuthService;
+        private readonly Logger logger;
 
         public ObservableCollection<IncomingChatMessage> IncomingChatMessages { get; } = new ObservableCollection<IncomingChatMessage>();
 
 
 
 
-        public TwitchChatViewModel()
+        public TwitchChatViewModel(ITwitchService twitchAuthService)
         {
-            _twitchAuthService = new TwitchAuthService();
+            logger = Logger.GetInstance();
+            logger.Log("TwitchChatViewModel Initializing...", LogLevel.Info);
+            _twitchAuthService = twitchAuthService;
             _twitchAuthService.TwitchMessageRecieved += OnMessageReceived;
         }
 

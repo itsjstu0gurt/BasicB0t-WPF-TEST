@@ -58,7 +58,7 @@
             <TabItem Header="Twitch Theatre" Style="{StaticResource TabHeaderStyle}">
                 <TabItem.Content>
                     <Grid Background="#333639">
-                        <TextBlock Text="Twitch Theatre View"/>
+                        <views:FollowedChannelsTabControlView />
 
                     </Grid>
                 </TabItem.Content>

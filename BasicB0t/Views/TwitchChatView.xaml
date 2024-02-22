@@ -8,9 +8,23 @@
              d:DesignHeight="850" d:DesignWidth="400"
              Background="#333639" Foreground="Gold"
              FontFamily="Tahoma" FontSize="12" FontWeight="Light">
- 
+    
+    
+
     <Grid>
-        <ListBox ItemsSource="{Binding IncomingChatMessages}" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+
+        <ListBox ItemsSource="{Binding IncomingChatMessages}" Background="Transparent" 
+                 BorderThickness="2" BorderBrush="Gold" Grid.Row="0" Grid.ColumnSpan="2" 
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -32,5 +46,30 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <TextBox Text="{Binding OutgoingChatMessage}"  
+         Height="50" Margin="5" TextWrapping="Wrap" 
+         FontFamily="Tahoma" FontSize="15" FontWeight="SemiBold"
+         Background="Transparent" Foreground="Gold" 
+         Grid.Row="1" Grid.Column="0" 
+         BorderBrush="Gold">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="BorderBrush" Value="Gold"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="DarkGoldenrod"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="DarkGoldenrod"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <Button Content="Send" Command="{Binding SendChatMessageCommand}" Width="50" Margin="5" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Background="Transparent" Foreground="Gold" BorderBrush="Gold"/>
+
     </Grid>
 </UserControl>

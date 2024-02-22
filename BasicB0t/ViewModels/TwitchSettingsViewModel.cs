@@ -174,7 +174,7 @@ namespace BasicB0t.ViewModels
         {
             logger.Log("DisconnectUser Button Pressed", LogLevel.Debug);
             Username = "Disconnecting...";
-            _twitchAuthService.DisconnectUserClient();
+            //_twitchAuthService.DisconnectUserClient();
             _twitchAuthService.ClearUserSettings();
 
         }

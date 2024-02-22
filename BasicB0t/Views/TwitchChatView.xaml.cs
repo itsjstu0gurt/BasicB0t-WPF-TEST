@@ -17,7 +17,7 @@ namespace BasicB0t.Views
             // Create an instance of TwitchAuthService
             _twitchAuthService = new TwitchAuthService();
             // Pass the twitchAuthService instance to the view model
-            DataContext = new TwitchSettingsViewModel(_twitchAuthService);
+            DataContext = new TwitchChatViewModel(_twitchAuthService);
             
 
         }
